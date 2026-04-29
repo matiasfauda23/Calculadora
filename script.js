@@ -33,5 +33,17 @@ buttons.forEach(function(buttonConfig) {
     button.classList.add("operator-button"); //Agregamos una clase adicional para los botones de operador para estilos específicos
   }
   
-  keypad.appendChild(button); //Agregamos el botón al contenedor del teclado
+  keypad.append(button); 
 });
+
+// Estado incial de la calcualdora
+const calculatorState = {
+  currentValue: "0",
+  previousValue: null,
+  operator: null,
+};
+
+//Actualizar display
+function renderDisplay() {
+  display.textContent = calculatorState.currentValue;
+}
