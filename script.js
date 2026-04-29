@@ -36,7 +36,7 @@ buttons.forEach(function(buttonConfig) {
   keypad.append(button); 
 });
 
-// Estado incial de la calcualdora
+// Estado de la calculadora
 const calculatorState = {
   currentValue: "0",
   previousValue: null,
@@ -50,10 +50,44 @@ function renderDisplay() {
 
 // Escuchar eventos de click en los botones
 keypad.addEventListener("click", function(event) {
+  //even.target es el elemento específico que fue clickeado, y closest("button") busca el botón más cercano, si encuentra el boton lo guarda en la variable button
   const button = event.target.closest("button");
-  if (!button) return; //Si no se hizo click en un botón, salir
+  if (!button) 
+    return; //Si no se hizo click en un botón, salir
   
   const type = button.dataset.type;
   const value = button.dataset.value;
-  console.log(type, value); //Para depuración
+  
+  if (type === "number") {
+    handleNumber(value);
+  }
+  if (type === "operator") {
+    handleOperator(value);
+  }
+  if (type === "clear") {
+    handleClear();
+  }
 });
+
+//Arma los numeros en el display, si toco 1 y luego 5 arma el 15
+function handleNumber(value) {
+  if (calculatorState.currentValue === "0") {
+    calculatorState.currentValue = value;
+    return;
+  } 
+  calculatorState.currentValue += value;
+}
+
+// guardamos el numero actual, luego la operacion y reinicio la memoria para poder escribir el proximo numero
+function handleOperator(operator) {
+calculatorState.previousValue = calculatorState.currentValue;
+calculatorState.operator = operator;
+calculatorState.currentValue = "0";
+}
+
+// Borra todo el estado de la calculadora
+function handleClear() {
+calculatorState.currentValue = "0";
+calculatorState.previousValue = null;
+calculatorState.operator = null;
+}
