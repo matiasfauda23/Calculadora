@@ -47,3 +47,13 @@ const calculatorState = {
 function renderDisplay() {
   display.textContent = calculatorState.currentValue;
 }
+
+// Escuchar eventos de click en los botones
+keypad.addEventListener("click", function(event) {
+  const button = event.target.closest("button");
+  if (!button) return; //Si no se hizo click en un botón, salir
+  
+  const type = button.dataset.type;
+  const value = button.dataset.value;
+  console.log(type, value); //Para depuración
+});
