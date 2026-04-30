@@ -1,5 +1,6 @@
 const display = document.querySelector(".calculator-display");
 const keypad = document.querySelector(".calculator-keypad");
+const historyDisplay = document.querySelector(".calculator-history");
 
 //Definimos los botones como objetos con su etiqueta y tipo para facilitar su creación y manejo de eventos
 const buttons = [
@@ -151,6 +152,10 @@ function calculateResult() {
 
   if (operacionElegida) {
     const result = operacionElegida(previous, current);
+    const textoOperacion = `${previous} ${calculatorState.operator} ${current} = ${result}`;
+
+    // Actualizamos el display de la historia
+    historyDisplay.textContent = textoOperacion;
 
   // Actualizamos el estado de la calculadora con el resultado, y reiniciamos los valores anteriores y operador para permitir nuevas operaciones
   calculatorState.currentValue = String(result);
