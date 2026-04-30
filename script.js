@@ -120,7 +120,7 @@ function handleClear() {
 calculatorState.currentValue = "0";
 calculatorState.previousValue = null;
 calculatorState.operator = null;
-historyDisplay.textContent = ""; // Limpiar el historial también
+historyDisplay.textContent = "Sin operaciones"; // Limpiar el historial también
 }
 function handleBackspace() {
   if (calculatorState.currentValue === "0") {

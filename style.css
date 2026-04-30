@@ -61,3 +61,33 @@ background: #e0f2fe;
     margin-top: 10px;
     min-height: 20px; 
 }
+
+/* La caja contenedora */
+.calculator-history-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+}
+
+
+.history-title {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e5e7eb; 
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+/* El texto de la operación */
+.calculator-history {
+  text-align: right; /* Lo alineamos a la derecha como el display principal */
+  font-size: 16px;
+  color: #374151;
+  margin: 0;
+  min-height: 20px;
+}
