@@ -4,24 +4,26 @@ const historyDisplay = document.querySelector(".calculator-history");
 
 //Definimos los botones como objetos con su etiqueta y tipo para facilitar su creación y manejo de eventos
 const buttons = [
-{ label: "7", type: "number" },
-{ label: "8", type: "number" },
-{ label: "9", type: "number" },
-{ label: "/", type: "operator" },
-{ label: "4", type: "number" },
-{ label: "5", type: "number" },
-{ label: "6", type: "number" },
-{ label: "*", type: "operator" },
-{ label: "1", type: "number" },
-{ label: "2", type: "number" },
-{ label: "3", type: "number" },
-{ label: "-", type: "operator" },
-{ label: "0", type: "number" },
-{ label: ".", type: "decimal" },
 { label: "C", type: "clear" },
-{ label: "←", type: "backspace" },
-{ label: "=", type: "equals" },
-{ label: "+", type: "operator" }
+  { label: "←", type: "backspace" },
+  { label: "%", type: "percentage" }, 
+  { label: "/", type: "operator" },
+  { label: "7", type: "number" },
+  { label: "8", type: "number" },
+  { label: "9", type: "number" },
+  { label: "*", type: "operator" },
+  { label: "4", type: "number" },
+  { label: "5", type: "number" },
+  { label: "6", type: "number" },
+  { label: "-", type: "operator" },
+  { label: "1", type: "number" },
+  { label: "2", type: "number" },
+  { label: "3", type: "number" },
+  { label: "+", type: "operator" },
+  { label: "+/-", type: "sign" },     
+  { label: "0", type: "number" },
+  { label: ".", type: "decimal" },
+  { label: "=", type: "equals" }
 ];
 
 //Creamos los botones dinamicamente a partir del arreglo de objetos, asignando su etiqueta y clase para estilos
@@ -88,6 +90,12 @@ keypad.addEventListener("click", function(event) {
   if (type === "decimal") {
     handleDecimal();
   }
+  if (type === "sign") {
+    handleSign();
+  }
+  if (type === "percentage") {
+    handlePercentage();
+  }
   renderDisplay(); //Actualizar el display después de cada acción
 });
 
@@ -135,6 +143,21 @@ function handleDecimal() {
     // Ejemplo: "15" + "." = "15."
     calculatorState.currentValue += ".";
     
+  }
+}
+function handleSign() {
+  if (calculatorState.currentValue !== "0") {
+    // Multiplicamos por -1 para invertir el signo
+    const valorInvertido = Number(calculatorState.currentValue) * -1;
+    calculatorState.currentValue = String(valorInvertido);
+  }
+}
+
+function handlePercentage() {
+  if (calculatorState.currentValue !== "0") {
+    // Dividimos por 100
+    const valorPorcentaje = Number(calculatorState.currentValue) / 100;
+    calculatorState.currentValue = String(valorPorcentaje);
   }
 }
 
