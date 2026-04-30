@@ -32,8 +32,15 @@ buttons.forEach(function(buttonConfig) {
   if (buttonConfig.type === "operator") {
     button.classList.add("operator-button"); //Agregamos una clase adicional para los botones de operador para estilos específicos
   }
+  if(buttonConfig.type === "clear") {
+    button.classList.add("clear-button"); //Agregamos una clase adicional para el botón de clear para estilos específicos
+  }
+  if(buttonConfig.type === "equals") {
+    button.classList.add("equals-button"); //Agregamos una clase adicional para el botón de equals para estilos específicos
+  }
   
   keypad.append(button); 
+  
 });
 
 // Estado de la calculadora
@@ -46,6 +53,7 @@ const calculatorState = {
 //Actualizar display
 function renderDisplay() {
   display.textContent = calculatorState.currentValue;
+
 }
 
 // Escuchar eventos de click en los botones
@@ -70,6 +78,7 @@ keypad.addEventListener("click", function(event) {
   if (type === "equals") {
     calculateResult();
   }
+  renderDisplay(); //Actualizar el display después de cada acción
 });
 
 //Arma los numeros en el display, si toco 1 y luego 5 arma el 15
@@ -100,6 +109,7 @@ function calculateResult() {
   if(calculatorState.previousValue === null || calculatorState.operator === null) {
     return; //Si no hay una operacion completa, no hacer nada
   }
+  // Convertimos los valores a numeros para poder realizar las operaciones matematicas
   const previous = Number(calculatorState.previousValue);
   const current = Number(calculatorState.currentValue);
   let result = 0;
@@ -117,6 +127,7 @@ function calculateResult() {
     result = previous / current;
   }
 
+  // Actualizamos el estado de la calculadora con el resultado, y reiniciamos los valores anteriores y operador para permitir nuevas operaciones
   calculatorState.currentValue = String(result);
   calculatorState.previousValue = null;
   calculatorState.operator = null;

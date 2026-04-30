@@ -32,6 +32,24 @@ cursor: pointer;
 .calculator-button:hover {
 background: #f3f4f6;
 }
-.calculator-button.operator {
+.calculator-button.operator-button {
 background: #e0f2fe;
+}
+
+.calculator-button.clear-button {
+  background: #fee2e2; 
+  color: #991b1b; /* Texto un poco más oscuro para que se lea bien */
+}
+
+.calculator-button.clear-button:hover {
+  background: #fecaca;
+}
+
+.calculator-button.equals-button {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.calculator-button.equals-button:hover {
+  background: #bbf7d0;
 }
