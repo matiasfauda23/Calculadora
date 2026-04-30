@@ -112,23 +112,43 @@ function calculateResult() {
   // Convertimos los valores a numeros para poder realizar las operaciones matematicas
   const previous = Number(calculatorState.previousValue);
   const current = Number(calculatorState.currentValue);
-  let result = 0;
+  
+  // Buscamos que funcion usar en nuestro diccionario
+  // Si operator es "+", esto nos devuelve la función sumar()
+  const operacionElegida = operacionesMatematicas[calculatorState.operator];
 
-  if(calculatorState.operator === "+") {
-    result = previous + current;
-  }
-  if(calculatorState.operator === "-") {
-    result = previous - current;
-  }
-  if(calculatorState.operator === "*") {
-    result = previous * current;
-  }
-  if(calculatorState.operator === "/") {
-    result = previous / current;
-  }
+  // 2. Si la función existe, le pasamos los números y guardamos el resultado
+  if (operacionElegida) {
+    const result = operacionElegida(previous, current);
 
   // Actualizamos el estado de la calculadora con el resultado, y reiniciamos los valores anteriores y operador para permitir nuevas operaciones
   calculatorState.currentValue = String(result);
   calculatorState.previousValue = null;
   calculatorState.operator = null;
+}
+const operacionesMatematicas = {
+  "+": sumar,
+  "-": restar,
+  "*": multiplicar,
+  "/": dividir
+};
+
+function sumar(a, b) {
+  return a + b;
+}
+
+function restar(a, b) {
+  return a - b;
+}
+
+function multiplicar(a, b) {
+  return a * b;
+}
+
+function dividir(a, b) {
+  if (b === 0) {
+    return "Error: Division por cero";
+  }
+  return a / b;
+}
 }
