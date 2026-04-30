@@ -16,7 +16,9 @@ const buttons = [
 { label: "3", type: "number" },
 { label: "-", type: "operator" },
 { label: "0", type: "number" },
+{ label: ".", type: "decimal" },
 { label: "C", type: "clear" },
+{ label: "←", type: "backspace" },
 { label: "=", type: "equals" },
 { label: "+", type: "operator" }
 ];
@@ -32,11 +34,12 @@ buttons.forEach(function(buttonConfig) {
   if (buttonConfig.type === "operator") {
     button.classList.add("operator-button"); //Agregamos una clase adicional para los botones de operador para estilos específicos
   }
-  if(buttonConfig.type === "clear") {
-    button.classList.add("clear-button"); //Agregamos una clase adicional para el botón de clear para estilos específicos
-  }
+
   if(buttonConfig.type === "equals") {
     button.classList.add("equals-button"); //Agregamos una clase adicional para el botón de equals para estilos específicos
+  }
+  if (buttonConfig.type === "backspace" || buttonConfig.type === "clear") {
+    button.classList.add("clear-button");
   }
   
   keypad.append(button); 
@@ -78,6 +81,12 @@ keypad.addEventListener("click", function(event) {
   if (type === "equals") {
     calculateResult();
   }
+  if (type === "backspace") {
+    handleBackspace();
+  }
+  if (type === "decimal") {
+    handleDecimal();
+  }
   renderDisplay(); //Actualizar el display después de cada acción
 });
 
@@ -103,11 +112,34 @@ calculatorState.currentValue = "0";
 calculatorState.previousValue = null;
 calculatorState.operator = null;
 }
+function handleBackspace() {
+  if (calculatorState.currentValue === "0") {
+    return; 
+  }
+  // Si el numero tiene mas de un digito, le cortamos el ultimo, sino lo reiniciamos a 0
+  if (calculatorState.currentValue.length > 1) {
+    // Le cortamos el último carácter
+    calculatorState.currentValue = calculatorState.currentValue.slice(0, -1);
+  } else {
+    // Si tenía 1 solo dígito y lo borramos, volvemos a poner el "0" inicial
+    calculatorState.currentValue = "0";
+  }
+}
+// Agrega un punto decimal al número actual, solo si no tiene uno ya
+function handleDecimal() {
+  if (!calculatorState.currentValue.includes(".")) {
+    
+    // Si no tiene punto, se lo PEGAMOS al final.
+    // Ejemplo: "15" + "." = "15."
+    calculatorState.currentValue += ".";
+    
+  }
+}
 
 // Funcion para calcular el resultado de la operacion
 function calculateResult() {
   if(calculatorState.previousValue === null || calculatorState.operator === null) {
-    return; //Si no hay una operacion completa, no hacer nada
+    return; 
   }
   // Convertimos los valores a numeros para poder realizar las operaciones matematicas
   const previous = Number(calculatorState.previousValue);
@@ -117,7 +149,6 @@ function calculateResult() {
   // Si operator es "+", esto nos devuelve la función sumar()
   const operacionElegida = operacionesMatematicas[calculatorState.operator];
 
-  // 2. Si la función existe, le pasamos los números y guardamos el resultado
   if (operacionElegida) {
     const result = operacionElegida(previous, current);
 
@@ -125,7 +156,10 @@ function calculateResult() {
   calculatorState.currentValue = String(result);
   calculatorState.previousValue = null;
   calculatorState.operator = null;
+  
+  }
 }
+// Diccionario que mapea cada operador a su función correspondiente
 const operacionesMatematicas = {
   "+": sumar,
   "-": restar,
@@ -150,5 +184,4 @@ function dividir(a, b) {
     return "Error: Division por cero";
   }
   return a / b;
-}
 }
