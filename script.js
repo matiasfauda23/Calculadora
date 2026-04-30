@@ -67,6 +67,9 @@ keypad.addEventListener("click", function(event) {
   if (type === "clear") {
     handleClear();
   }
+  if (type === "equals") {
+    calculateResult();
+  }
 });
 
 //Arma los numeros en el display, si toco 1 y luego 5 arma el 15
@@ -90,4 +93,31 @@ function handleClear() {
 calculatorState.currentValue = "0";
 calculatorState.previousValue = null;
 calculatorState.operator = null;
+}
+
+// Funcion para calcular el resultado de la operacion
+function calculateResult() {
+  if(calculatorState.previousValue === null || calculatorState.operator === null) {
+    return; //Si no hay una operacion completa, no hacer nada
+  }
+  const previous = Number(calculatorState.previousValue);
+  const current = Number(calculatorState.currentValue);
+  let result = 0;
+
+  if(calculatorState.operator === "+") {
+    result = previous + current;
+  }
+  if(calculatorState.operator === "-") {
+    result = previous - current;
+  }
+  if(calculatorState.operator === "*") {
+    result = previous * current;
+  }
+  if(calculatorState.operator === "/") {
+    result = previous / current;
+  }
+
+  calculatorState.currentValue = String(result);
+  calculatorState.previousValue = null;
+  calculatorState.operator = null;
 }
